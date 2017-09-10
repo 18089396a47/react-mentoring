@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "server": "node ./bin/www",
+    "start": "webpack-dev-server",
+    "build": "webpack -p"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
@@ -12,7 +14,26 @@
     "express": "~4.15.2",
     "jade": "~1.11.0",
     "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2",
-    "stylus": "0.54.5"
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
+    "react-router": "^4.2.0",
+    "redux": "^3.7.2",
+    "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "react-hot-loader": "^3.0.0-beta.7",
+    "style-loader": "^0.18.2",
+    "stylus": "0.54.5",
+    "stylus-loader": "^3.0.1",
+    "webpack": "^3.5.6",
+    "webpack-dev-server": "^2.7.1"
   }
 }
