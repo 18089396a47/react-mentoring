@@ -1,0 +1,31 @@
+.search-input
+  position: relative;
+  margin-bottom: 15px;
+
+  &__field
+    border: 0;
+    border-bottom: 1px solid #565656;
+    height: 55px;
+    line-height: 54px;
+    font-size: 18px;
+    padding: 0 25px;
+    background: #000;
+    color: #ccc;
+    outline: 0;
+    width: 100%;
+    transition: border-bottom 200ms;
+
+    &:focus
+      border-bottom: 1px solid #f45162;
+
+  &__icon
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    right: 34px;
+    margin-top: -13px;
+    cursor: pointer;
+    padding: 5px;
+    background: url(./searchInputIcon.png) no-repeat;
+    background-position: 6px;

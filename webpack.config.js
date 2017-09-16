@@ -30,7 +30,7 @@ module.exports = {
             loader: 'style-loader!css-loader!stylus-loader'
         }, {
             test: /\.(eot|svg|ttf|woff|woff2)$/,
-            loader: 'file?name=public/fonts/[name].[ext]'
+            loader: 'file-loader?name=public/fonts/[name].[ext]'
         }, {
             test: /\.json$/,
             loader: 'json'
@@ -44,8 +44,8 @@ module.exports = {
         }, {
             test: /.*\.(gif|png|jpe?g|svg)$/i,
             loaders: [
-              'file?hash=sha512&digest=hex&name=[hash].[ext]',
-              'image-webpack'
+              'file-loader?hash=sha512&digest=hex&name=[hash].[ext]',
+              'image-webpack-loader'
             ]
         }]
     },

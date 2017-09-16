@@ -1,0 +1,33 @@
+.search-by-toggle
+  display: flex;
+  align-items: center;
+
+  &__title
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+
+  &__button
+    margin-left: 15px;
+    overflow: hidden;
+
+    input[type=radio]
+      display: none;
+
+  &__button-title
+    display: inline-block;
+    background: #3c3c3c;
+    letter-spacing: 0.5px;
+    padding: 5px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: background-color 200ms;
+
+    &:hover
+      background: #363636;
+
+    :checked + &
+      background: #f45162;
+
+      &:hover
+        background: #e03d4e;

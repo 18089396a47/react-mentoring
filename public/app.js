@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
-import './stylesheets/style';
+import './commonStyles';
+import PageHeader from './components/pageHeader/pageHeader';
 
 export default class App extends Component {
     render() {
         return (
-            <div>Hello world!</div>
+            <div>
+                <PageHeader />
+            </div>
         );
     }
 }
