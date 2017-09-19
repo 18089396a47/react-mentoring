@@ -1,0 +1,23 @@
+.sort-by-toggle
+  display: flex;
+  align-items: center;
+
+  &__option
+    margin-left: 15px;
+    overflow: hidden;
+
+    input[type=radio]
+      display: none;
+
+  &__option-title
+    cursor: pointer;
+    transition: color 200ms;
+
+    &:hover
+      color: #363636;
+
+    :checked + &
+      color: #f45162;
+
+      &:hover
+        color: #e03d4e;

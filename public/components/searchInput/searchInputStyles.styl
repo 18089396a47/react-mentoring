@@ -15,7 +15,8 @@
     width: 100%;
     transition: border-bottom 200ms;
 
-    &:focus
+    &:focus,
+    &:not(:placeholder-shown)
       border-bottom: 1px solid #f45162;
 
   &__icon
