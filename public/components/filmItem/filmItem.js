@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './filmItemrStyles';
 import SearchMovieField from '../searchMovieField/searchMovieField';
@@ -11,14 +12,14 @@ const FilmItem = ({
     poster
 }) => (
     <li className="film-item">
-        <a href="/link">
+        <Link to={`/film/${show_title}`}>
             <img className="film-item__poster" src={poster} alt={show_title} />
-        </a>
+        </Link>
         <div className="film-item__info-wrapper">
             <div className="film-item__title-wrapper">
-                <a className="film-item__title-link" href="/link">
+                <Link className="film-item__title-link" to={`/film/${show_title}`}>
                     <h3 className="film-item__title">{show_title}</h3>
-                </a>
+                </Link>
                 <span className="film-item__year">{release_year}</span>
             </div>
             <span className="film-item__category">{category}</span>
