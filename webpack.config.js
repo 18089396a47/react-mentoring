@@ -34,7 +34,7 @@ module.exports = {
             loader: 'file-loader?name=public/fonts/[name].[ext]'
         }, {
             test: /\.json$/,
-            loader: 'json'
+            loader: 'json-loader'
         }, {
             test: /\.js$/,
             exclude: /(node_modules|bower_components)/,
