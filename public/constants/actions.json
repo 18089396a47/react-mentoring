@@ -1,3 +1,6 @@
 {
-  "search": "SEARCH"
+  "searchStart": "SEARCH_START",
+  "searchEnd": "SEARCH_END",
+  "changeSearchInput": "CHANGE_SEARCH_INPUT",
+  "updateSearchResults": "UPDATE_SEARCH_RESULTS"
 }

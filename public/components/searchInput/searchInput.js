@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import theMovieDb from 'themoviedb-javascript-library';
 import './searchInputStyles';
-import { search } from '../../actions/';
+import { searchStart, changeSearchInput } from '../../actions/';
 
-const SearchInput = ({ dispatch }) => {
-    let input;
-
+const SearchInput = ({ dispatch, inputValue }) => {
     function searchFilm(event) {
         event.preventDefault();
-        const value = input.value.trim();
-        
-        if (value) {
-            dispatch(search(value));
-            input.value = '';
+
+        if (inputValue) {
+            dispatch(searchStart(inputValue));
         }
+    }
+
+    function keyDown(event) {
+        const value = event.target.value;
+
+        dispatch(changeSearchInput(value));
     }
 
     return (
         <form className="search-input" onSubmit={searchFilm}>
             <input
-                ref={node => { input = node; }}
+                onChange={keyDown}
+                value={inputValue}
                 className="search-input__field"
                 placeholder="Enter something..."
             />
@@ -31,7 +33,14 @@ const SearchInput = ({ dispatch }) => {
 };
 
 SearchInput.propTypes = {
-    dispatch: PropTypes.func.isRequired
+    dispatch: PropTypes.func.isRequired,
+    inputValue: PropTypes.string.isRequired
 };
 
-export default connect()(SearchInput);
+const mapStateToProps = (state) => {
+  return {
+    inputValue: state.search.inputValue
+  };
+};
+
+export default connect(mapStateToProps)(SearchInput);

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { createStore, combineRedusers } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk'
 import theMovieDb from 'themoviedb-javascript-library';
 
 import './commonStyles';
@@ -19,15 +20,30 @@ import FilmsByInfo from './components/filmsByInfo/filmsByInfo';
 import redusers from './redusers/';
 
 const defaultState = {
-    films: [{
-        show_id: 60031236,
-        show_title: 'KILL BILL: VOL. 1',
-        release_year: '2003',
-        category: 'Action & Adventure',
-        poster: 'http://netflixroulette.net/api/posters/60031236.jpg'
-    }]
+    search: {
+        inputValue: ''
+    },
+    films: {
+        data: {
+            results: [{
+                id: 60031236,
+                title: 'KILL BILL: VOL. 1',
+                release_date: '2003',
+                genre_ids: 'Action & Adventure',
+                poster_path: 'http://netflixroulette.net/api/posters/60031236.jpg'
+            }]
+        }
+    }
 };
-const store = createStore(redusers, defaultState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const composeEnhancers =
+    typeof window === 'object' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
+
+const enhancer = composeEnhancers(
+    applyMiddleware(thunkMiddleware)
+);
+const store = createStore(redusers, defaultState, enhancer);
 
 theMovieDb.common.api_key = 'fdb89995ee84c3ba06f60793f93898fc';
 

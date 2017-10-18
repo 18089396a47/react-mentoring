@@ -3,16 +3,20 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './filmsContainerStyles';
 import FilmItem from '../filmItem/filmItem';
+import theMovieDb from 'themoviedb-javascript-library';
 
 class FilmsContainer extends Component {
     getFilmsList() {
         return this.props.films.map((film) => (
             <FilmItem
-                show_title={film.show_title}
-                release_year={film.release_year}
-                category={film.category}
-                poster={film.poster}
-                key={film.show_id}
+                show_title={film.title}
+                release_year={film.release_date}
+                category={film.genre_ids}
+                poster={theMovieDb.common.getImage({
+                    size: 'w342',
+                    file: film.poster_path
+                })}
+                key={film.id}
             />
         ));
     }
@@ -36,7 +40,7 @@ FilmsContainer.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    films: state.films
+    films: state.films.data.results
   };
 };
 
