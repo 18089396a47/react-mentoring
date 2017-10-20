@@ -30,7 +30,7 @@ const FilmItem = ({
 FilmItem.propTypes = {
     show_title: PropTypes.string.isRequired,
     release_year: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
+    category: PropTypes.array.isRequired,
     poster: PropTypes.string.isRequired
 };
 

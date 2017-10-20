@@ -38,9 +38,9 @@ SearchInput.propTypes = {
 };
 
 const mapStateToProps = (state) => {
-  return {
-    inputValue: state.search.inputValue
-  };
+    return {
+        inputValue: state.search.inputValue
+    };
 };
 
 export default connect(mapStateToProps)(SearchInput);

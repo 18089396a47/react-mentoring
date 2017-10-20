@@ -11,7 +11,7 @@ export default class SearchMovieField extends Component {
                 <SearchInput />
                 <div className="search-movie-field__button-container">
                     <SearchByToggle />
-                    <SearchButton searchText="Kill Bill" />
+                    <SearchButton />
                 </div>
             </div>
         );

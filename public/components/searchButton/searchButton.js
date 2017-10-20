@@ -1,14 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './searchButtonStyles';
 
-const SearchButton = ({ searchText }) => (
-    <Link to={`/search/${searchText}`} className="search-button">Search</Link>
-);
+const SearchButton = ({ dispatch, searchText }) => {
+    return (
+        <Link to={`/search/${searchText}`} className="search-button">Search</Link>
+    );
+};
 
 SearchButton.propTypes = {
     searchText: PropTypes.string
 };
 
-export default SearchButton;
+const mapStateToProps = (state) => {
+    return {
+        searchText: state.search.inputValue
+    };
+};
+
+export default connect(mapStateToProps)(SearchButton);
