@@ -12,17 +12,17 @@ class FilmsContainer extends Component {
     constructor(props) {
         super(props);
 
-        const searchFilm = () => {
-            const path = this.props.location.pathname.split('/');
+        const searchFilm = function() {
+            const path = props.location.pathname.split('/');
 
             if (path[1] === 'search') {
-                this.props.dispatch(searchStart(path[2]));
+                props.dispatch(searchStart(path[2]));
             }
         }
 
         searchFilm();
 
-        unlisten = this.props.history.listen(searchFilm());
+        unlisten = this.props.history.listen(searchFilm);
     }
 
     componentWillUnmount() {

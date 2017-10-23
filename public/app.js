@@ -25,13 +25,7 @@ const defaultState = {
     },
     films: {
         data: {
-            results: [{
-                id: 60031236,
-                title: 'KILL BILL: VOL. 1',
-                release_date: '2003',
-                genre_ids: 'Action & Adventure',
-                poster_path: 'http://netflixroulette.net/api/posters/60031236.jpg'
-            }]
+            results: []
         }
     }
 };

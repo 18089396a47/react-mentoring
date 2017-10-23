@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import './searchInputStyles';
 import { searchStart, changeSearchInput } from '../../actions/';
 
-const SearchInput = ({ dispatch, inputValue }) => {
+const SearchInput = ({ dispatch, inputValue, history }) => {
     function searchFilm(event) {
         event.preventDefault();
 
-        if (inputValue) {
-            dispatch(searchStart(inputValue));
-        }
+        history.push(`/search/${inputValue}`);
     }
 
     function keyDown(event) {
@@ -34,7 +33,8 @@ const SearchInput = ({ dispatch, inputValue }) => {
 
 SearchInput.propTypes = {
     dispatch: PropTypes.func.isRequired,
-    inputValue: PropTypes.string.isRequired
+    inputValue: PropTypes.string.isRequired,
+    history: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
@@ -43,4 +43,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(SearchInput);
+export default withRouter(connect(mapStateToProps)(SearchInput));
