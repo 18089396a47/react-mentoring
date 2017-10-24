@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import './searchInputStyles';
-import { searchStart, changeSearchInput } from '../../actions/';
+import { searchQueryStart, changeSearchInput } from '../../actions/';
 
 const SearchInput = ({ dispatch, inputValue, history }) => {
     function searchFilm(event) {

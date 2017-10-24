@@ -1,10 +1,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import './filmInforStyles';
 import SearchMovieField from '../searchMovieField/searchMovieField';
 import InfoPanel from '../infoPanel/infoPanel';
+import theMovieDb from 'themoviedb-javascript-library';
+import { searchFilmStart } from '../../actions/';
 
-export default class FilmInfo extends Component {
+let unlisten;
+class FilmInfo extends Component {
+    constructor(props) {
+        super(props);
+
+        const searchFilm = function() {
+            const path = props.history.location.pathname.split('/');
+
+            if (path[1] === 'film') {
+                props.dispatch(searchFilmStart(path[2]));
+            }
+        }
+
+        searchFilm();
+
+        unlisten = this.props.history.listen(searchFilm);
+    }
+
+    componentWillUnmount() {
+        unlisten();
+    }
+    
     render() {
         return (
             <div className="film-info">
@@ -18,12 +43,12 @@ export default class FilmInfo extends Component {
                     </div>
                     <div className="film-info__oscar">Oscar-winning Movies</div>
                     <div className="film-info__year-wrapper">
-                        <div className="film-info__year">{this.props.release_year}</div>
-                        <div>{this.props.runtime}</div>
+                        <div className="film-info__year">{new Date(this.props.release_year).getFullYear()}</div>
+                        <div>{this.props.runtime} min</div>
                     </div>
                     <p className="film-info__summary">{this.props.summary}</p>
-                    <div className="film-info__director">Director: {this.props.director}</div>
-                    <div className="film-info__cast">Cast: {this.props.show_cast}</div>
+                    <div className="film-info__tagline">Tagline: {this.props.tagline}</div>
+                    <div className="film-info__companies">Production companies: {this.props.production_companies}</div>
                 </div>
             </div>
         );
@@ -31,12 +56,31 @@ export default class FilmInfo extends Component {
 }
 
 FilmInfo.propTypes = {
-    show_title: PropTypes.string.isRequired,
-    rating: PropTypes.string.isRequired,
-    release_year: PropTypes.string.isRequired,
-    runtime: PropTypes.string.isRequired,
-    summary: PropTypes.string.isRequired,
-    director: PropTypes.string.isRequired,
-    show_cast: PropTypes.string.isRequired,
-    poster: PropTypes.string.isRequired
+    show_title: PropTypes.string,
+    rating: PropTypes.number,
+    release_year: PropTypes.string,
+    runtime: PropTypes.number,
+    summary: PropTypes.string,
+    tagline: PropTypes.string,
+    production_companies: PropTypes.string,
+    poster: PropTypes.string
 };
+
+const mapStateToProps = (state) => {
+    return {
+        show_title: state.filmInfo.title,
+        rating: state.filmInfo.vote_average,
+        release_year: state.filmInfo.release_date,
+        runtime: state.filmInfo.runtime,
+        summary: state.filmInfo.overview,
+        poster: theMovieDb.common.getImage({
+            size: 'w342',
+            file: state.filmInfo.poster_path
+        }),
+        production_companies: state.filmInfo.production_companies
+            .map(company => company.name).join(', '),
+        tagline: state.filmInfo.tagline
+    };
+};
+
+export default withRouter(connect(mapStateToProps)(FilmInfo));

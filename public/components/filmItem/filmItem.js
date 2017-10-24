@@ -9,10 +9,11 @@ const FilmItem = ({
     show_title,
     release_year,
     category,
+    id,
     poster
 }) => (
     <li className="film-item">
-        <Link to={`/film/${show_title}`}>
+        <Link to={`/film/${id}`}>
             <img className="film-item__poster" src={poster} alt={show_title} />
         </Link>
         <div className="film-item__info-wrapper">
@@ -30,7 +31,8 @@ const FilmItem = ({
 FilmItem.propTypes = {
     show_title: PropTypes.string.isRequired,
     release_year: PropTypes.string.isRequired,
-    category: PropTypes.array.isRequired,
+    category: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     poster: PropTypes.string.isRequired
 };
 

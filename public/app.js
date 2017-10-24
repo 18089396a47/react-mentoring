@@ -23,6 +23,9 @@ const defaultState = {
     search: {
         inputValue: ''
     },
+    filmInfo: {
+        production_companies: []
+    },
     films: {
         data: {
             results: []
@@ -51,16 +54,7 @@ export default class App extends Component {
                             <Switch>
                                 <Route path="/film/:name">
                                     <PageHeader headerComponents={<SearchPageButton />}>
-                                        <FilmInfo
-                                            director={'Quentin Tarantino'}
-                                            show_title={'KILL BILL: VOL. 1'}
-                                            release_year={'2003'}
-                                            poster={'http://netflixroulette.net/api/posters/60031236.jpg'}
-                                            rating={'3.8'}
-                                            runtime={'111 min'}
-                                            show_cast={'Uma Thurman, Lucy Liu, Vivica A. Fox, Daryl Hannah, David Carradine, Michael Madsen, Julie Dreyfus, Chiaki Kuriyama, Sonny Chiba, Gordon Liu'}
-                                            summary={'An assassin is shot by her ruthless employer, Bill, and other members of their assassination circle. But she lives -- and plots her vengeance.'}
-                                        />
+                                        <FilmInfo />
                                         <InfoPanel>
                                             <FilmsByInfo director={'Quentin Tarantino'} />
                                         </InfoPanel>
@@ -70,7 +64,7 @@ export default class App extends Component {
                                     <PageHeader>
                                         <SearchMovieWrapper />
                                         <InfoPanel>
-                                            <FilmCounter count={7} />
+                                            <FilmCounter />
                                             <SortByToggle />
                                         </InfoPanel>
                                     </PageHeader>

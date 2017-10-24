@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './filmsContainerStyles';
 import FilmItem from '../filmItem/filmItem';
 import theMovieDb from 'themoviedb-javascript-library';
-import { searchStart } from '../../actions/';
+import { searchQueryStart } from '../../actions/';
 
 let unlisten;
 class FilmsContainer extends Component {
@@ -13,10 +13,10 @@ class FilmsContainer extends Component {
         super(props);
 
         const searchFilm = function() {
-            const path = props.location.pathname.split('/');
+            const path = props.history.location.pathname.split('/');
 
             if (path[1] === 'search') {
-                props.dispatch(searchStart(path[2]));
+                props.dispatch(searchQueryStart(path[2]));
             }
         }
 
@@ -34,7 +34,8 @@ class FilmsContainer extends Component {
             <FilmItem
                 show_title={film.title}
                 release_year={film.release_date}
-                category={film.genre_ids}
+                category={film.genre_ids.join(', ')}
+                id={film.id}
                 poster={theMovieDb.common.getImage({
                     size: 'w342',
                     file: film.poster_path

@@ -1,6 +1,9 @@
 {
-  "searchStart": "SEARCH_START",
-  "searchEnd": "SEARCH_END",
+  "searchQueryStart": "SEARCH_QUERY_START",
+  "searchQueryEnd": "SEARCH_QUERY_END",
+  "searchFilmStart": "SEARCH_FILM_START",
+  "searchFilmEnd": "SEARCH_FILM_END",
   "changeSearchInput": "CHANGE_SEARCH_INPUT",
+  "updateFilmInfo": "UPDATE_FILM_INFO",
   "updateSearchResults": "UPDATE_SEARCH_RESULTS"
 }
