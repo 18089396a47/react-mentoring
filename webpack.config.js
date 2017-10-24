@@ -51,6 +51,9 @@ module.exports = {
         }]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            isProduction
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new HtmlWebpackPlugin({

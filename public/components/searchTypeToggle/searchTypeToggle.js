@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './searchTypeToggleStyles';
 import { changeSearchType } from '../../actions/';
+import * as commons from '../../constants/commons';
 
 class SearchTypeToggle extends Component {
     changeType(newType) {
@@ -17,8 +18,8 @@ class SearchTypeToggle extends Component {
                     <input
                         type="radio"
                         name="search-by-toggle"
-                        checked={this.props.searchType === 'movie'}
-                        onChange={this.changeType.bind(this, 'movie')}
+                        checked={this.props.searchType === commons.searchTypeMovie}
+                        onChange={this.changeType.bind(this, commons.searchTypeMovie)}
                     />
                     <span className="search-by-toggle__button-title">Movie</span>
                 </label>
@@ -26,8 +27,8 @@ class SearchTypeToggle extends Component {
                     <input
                         type="radio"
                         name="search-by-toggle"
-                        checked={this.props.searchType === 'tv'}
-                        onChange={this.changeType.bind(this, 'tv')}
+                        checked={this.props.searchType === commons.searchTypeTV}
+                        onChange={this.changeType.bind(this, commons.searchTypeTV)}
                     />
                     <span className="search-by-toggle__button-title">TV</span>
                 </label>

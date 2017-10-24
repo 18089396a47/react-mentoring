@@ -7,6 +7,7 @@
   "searchSimilarFilmEnd": "SEARCH_SIMILAR_FILM_END",
   "changeSearchInput": "CHANGE_SEARCH_INPUT",
   "changeSearchType": "CHANGE_SEARCH_TYPE",
+  "changeSortCriteria": "CHANGE_SORT_CRITERIA",
   "updateFilmInfo": "UPDATE_FILM_INFO",
   "updateSearchResults": "UPDATE_SEARCH_RESULTS"
 }

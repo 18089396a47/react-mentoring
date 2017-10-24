@@ -16,14 +16,16 @@ import FilmInfo from './components/filmInfo/filmInfo';
 import FilmCounter from './components/filmCounter/filmCounter';
 import SortByToggle from './components/sortByToggle/sortByToggle';
 import FilmsSimilar from './components/filmsSimilar/filmsSimilar';
+import * as commons from './constants/commons';
 
 import redusers from './redusers/';
 
 const defaultState = {
     search: {
         inputValue: '',
-        searchType: 'movie'
+        searchType: commons.searchTypeMovie
     },
+    sortCriteria: commons.sortByRating,
     filmInfo: {
         production_companies: []
     },
@@ -33,17 +35,24 @@ const defaultState = {
         }
     }
 };
-const composeEnhancers =
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
-        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
-const enhancer = composeEnhancers(
-    applyMiddleware(thunkMiddleware)
-);
+let enhancer;
+if (isProduction) {
+    enhancer = applyMiddleware(thunkMiddleware);
+} else {
+    const composeEnhancers =
+        typeof window === 'object' &&
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+            window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
+
+    enhancer = composeEnhancers(
+        applyMiddleware(thunkMiddleware)
+    );
+}
+
 const store = createStore(redusers, defaultState, enhancer);
 
-theMovieDb.common.api_key = 'fdb89995ee84c3ba06f60793f93898fc';
+theMovieDb.common.api_key = commons.apiKey;
 
 export default class App extends Component {
     render() {

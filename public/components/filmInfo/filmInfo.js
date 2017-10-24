@@ -8,27 +8,17 @@ import InfoPanel from '../infoPanel/infoPanel';
 import theMovieDb from 'themoviedb-javascript-library';
 import { searchFilmStart } from '../../actions/';
 import getYear from '../../helpers/getYear';
+import * as commons from '../../constants/commons';
 
-let unlisten;
 class FilmInfo extends Component {
     constructor(props) {
         super(props);
 
-        const searchFilm = function() {
-            const path = props.history.location.pathname.split('/');
+        const path = this.props.history.location.pathname.split('/');
 
-            if (path[1] === 'film') {
-                props.dispatch(searchFilmStart(path[2]));
-            }
+        if (path[1] === 'film') {
+            this.props.dispatch(searchFilmStart(path[2], this.props.searchType));
         }
-
-        searchFilm();
-
-        unlisten = this.props.history.listen(searchFilm);
-    }
-
-    componentWillUnmount() {
-        unlisten();
     }
 
     render() {
@@ -57,6 +47,7 @@ class FilmInfo extends Component {
 }
 
 FilmInfo.propTypes = {
+    searchType: PropTypes.string.isRequired,
     show_title: PropTypes.string,
     rating: PropTypes.number,
     release_year: PropTypes.string,
@@ -69,13 +60,14 @@ FilmInfo.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        show_title: state.filmInfo.title,
+        searchType: state.search.searchType,
+        show_title: state.filmInfo.title || state.filmInfo.name,
         rating: state.filmInfo.vote_average,
         release_year: state.filmInfo.release_date,
         runtime: state.filmInfo.runtime,
         summary: state.filmInfo.overview,
         poster: theMovieDb.common.getImage({
-            size: 'w342',
+            size: commons.posterSize,
             file: state.filmInfo.poster_path
         }),
         production_companies: state.filmInfo.production_companies

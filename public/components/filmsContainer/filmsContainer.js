@@ -6,41 +6,37 @@ import './filmsContainerStyles';
 import FilmItem from '../filmItem/filmItem';
 import theMovieDb from 'themoviedb-javascript-library';
 import { searchQueryStart, searchSimilarFilmStart } from '../../actions/';
+import * as commons from '../../constants/commons';
 
-let unlisten;
 class FilmsContainer extends Component {
     constructor(props) {
         super(props);
 
-        const searchFilm = function() {
-            const path = props.history.location.pathname.split('/');
+        const path = this.props.history.location.pathname.split('/');
 
-            console.log(props.searchType);
-            if (path[1] === 'search') {
-                props.dispatch(searchQueryStart(path[2], props.searchType));
-            } else if (path[1] === 'film') {
-                props.dispatch(searchSimilarFilmStart(path[2]));
-            }
+        if (path[1] === 'search') {
+            this.props.dispatch(searchQueryStart(path[2], this.props.searchType));
+        } else if (path[1] === 'film') {
+            this.props.dispatch(searchSimilarFilmStart(path[2]));
         }
-
-        searchFilm();
-
-        unlisten = this.props.history.listen(searchFilm);
-    }
-
-    componentWillUnmount() {
-        unlisten();
     }
 
     getFilmsList() {
-        return this.props.films.map((film) => (
+        return [...this.props.films].sort((filmA, filmB) => {
+            if (this.props.sortCriteria === commons.sortByRating) {
+                return filmB.vote_average - filmA.vote_average;
+            } else if (this.props.sortCriteria === commons.sortByDate) {
+                return new Date(filmB.release_date) - new Date(filmA.release_date);
+            }
+            return 0;
+        }).map((film) => (
             <FilmItem
-                show_title={film.title}
+                show_title={film.title || film.name}
                 release_year={film.release_date}
                 category={film.genre_ids.join(', ')}
                 id={film.id}
                 poster={theMovieDb.common.getImage({
-                    size: 'w342',
+                    size: commons.posterSize,
                     file: film.poster_path
                 })}
                 key={film.id}
@@ -62,16 +58,17 @@ class FilmsContainer extends Component {
 }
 
 FilmsContainer.propTypes = {
+    sortCriteria: PropTypes.string.isRequired,
     searchType: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     films: PropTypes.arrayOf(PropTypes.object),
-    history: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
+    history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
     return {
         films: state.films.data.results,
+        sortCriteria: state.sortCriteria,
         searchType: state.search.searchType
     };
 };

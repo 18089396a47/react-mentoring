@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 import './searchInputStyles';
 import { searchQueryStart, changeSearchInput } from '../../actions/';
 
-const SearchInput = ({ dispatch, inputValue, history }) => {
+const SearchInput = ({ dispatch, searchType, inputValue, history }) => {
     function searchFilm(event) {
         event.preventDefault();
 
         history.push(`/search/${inputValue}`);
+        dispatch(searchQueryStart(inputValue, searchType));
     }
 
     function keyDown(event) {
@@ -33,12 +34,14 @@ const SearchInput = ({ dispatch, inputValue, history }) => {
 
 SearchInput.propTypes = {
     dispatch: PropTypes.func.isRequired,
+    searchType: PropTypes.string.isRequired,
     inputValue: PropTypes.string.isRequired,
     history: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
     return {
+        searchType: state.search.searchType,
         inputValue: state.search.inputValue
     };
 };
