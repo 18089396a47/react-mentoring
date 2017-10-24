@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './filmItemrStyles';
 import SearchMovieField from '../searchMovieField/searchMovieField';
 import InfoPanel from '../infoPanel/infoPanel';
+import getYear from '../../helpers/getYear';
 
 const FilmItem = ({
     show_title,
@@ -21,7 +22,7 @@ const FilmItem = ({
                 <Link className="film-item__title-link" to={`/film/${show_title}`}>
                     <h3 className="film-item__title">{show_title}</h3>
                 </Link>
-                <span className="film-item__year">{release_year}</span>
+                <span className="film-item__year">{getYear(release_year)}</span>
             </div>
             <span className="film-item__category">{category}</span>
         </div>

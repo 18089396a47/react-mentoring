@@ -3,7 +3,10 @@
   "searchQueryEnd": "SEARCH_QUERY_END",
   "searchFilmStart": "SEARCH_FILM_START",
   "searchFilmEnd": "SEARCH_FILM_END",
+  "searchSimilarFilmStart": "SEARCH_SIMILAR_FILM_START",
+  "searchSimilarFilmEnd": "SEARCH_SIMILAR_FILM_END",
   "changeSearchInput": "CHANGE_SEARCH_INPUT",
+  "changeSearchType": "CHANGE_SEARCH_TYPE",
   "updateFilmInfo": "UPDATE_FILM_INFO",
   "updateSearchResults": "UPDATE_SEARCH_RESULTS"
 }

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './filmsContainerStyles';
 import FilmItem from '../filmItem/filmItem';
 import theMovieDb from 'themoviedb-javascript-library';
-import { searchQueryStart } from '../../actions/';
+import { searchQueryStart, searchSimilarFilmStart } from '../../actions/';
 
 let unlisten;
 class FilmsContainer extends Component {
@@ -15,8 +15,11 @@ class FilmsContainer extends Component {
         const searchFilm = function() {
             const path = props.history.location.pathname.split('/');
 
+            console.log(props.searchType);
             if (path[1] === 'search') {
-                props.dispatch(searchQueryStart(path[2]));
+                props.dispatch(searchQueryStart(path[2], props.searchType));
+            } else if (path[1] === 'film') {
+                props.dispatch(searchSimilarFilmStart(path[2]));
             }
         }
 
@@ -59,6 +62,7 @@ class FilmsContainer extends Component {
 }
 
 FilmsContainer.propTypes = {
+    searchType: PropTypes.string.isRequired,
     dispatch: PropTypes.func.isRequired,
     films: PropTypes.arrayOf(PropTypes.object),
     history: PropTypes.object.isRequired,
@@ -67,7 +71,8 @@ FilmsContainer.propTypes = {
 
 const mapStateToProps = (state) => {
     return {
-        films: state.films.data.results
+        films: state.films.data.results,
+        searchType: state.search.searchType
     };
 };
 

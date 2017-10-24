@@ -15,13 +15,14 @@ import InfoPanel from './components/infoPanel/infoPanel';
 import FilmInfo from './components/filmInfo/filmInfo';
 import FilmCounter from './components/filmCounter/filmCounter';
 import SortByToggle from './components/sortByToggle/sortByToggle';
-import FilmsByInfo from './components/filmsByInfo/filmsByInfo';
+import FilmsSimilar from './components/filmsSimilar/filmsSimilar';
 
 import redusers from './redusers/';
 
 const defaultState = {
     search: {
-        inputValue: ''
+        inputValue: '',
+        searchType: 'movie'
     },
     filmInfo: {
         production_companies: []
@@ -56,7 +57,7 @@ export default class App extends Component {
                                     <PageHeader headerComponents={<SearchPageButton />}>
                                         <FilmInfo />
                                         <InfoPanel>
-                                            <FilmsByInfo director={'Quentin Tarantino'} />
+                                            <FilmsSimilar />
                                         </InfoPanel>
                                     </PageHeader>
                                 </Route>

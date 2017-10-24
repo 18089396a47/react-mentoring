@@ -7,6 +7,7 @@ import SearchMovieField from '../searchMovieField/searchMovieField';
 import InfoPanel from '../infoPanel/infoPanel';
 import theMovieDb from 'themoviedb-javascript-library';
 import { searchFilmStart } from '../../actions/';
+import getYear from '../../helpers/getYear';
 
 let unlisten;
 class FilmInfo extends Component {
@@ -29,7 +30,7 @@ class FilmInfo extends Component {
     componentWillUnmount() {
         unlisten();
     }
-    
+
     render() {
         return (
             <div className="film-info">
@@ -43,7 +44,7 @@ class FilmInfo extends Component {
                     </div>
                     <div className="film-info__oscar">Oscar-winning Movies</div>
                     <div className="film-info__year-wrapper">
-                        <div className="film-info__year">{new Date(this.props.release_year).getFullYear()}</div>
+                        <div className="film-info__year">{getYear(this.props.release_year)}</div>
                         <div>{this.props.runtime} min</div>
                     </div>
                     <p className="film-info__summary">{this.props.summary}</p>

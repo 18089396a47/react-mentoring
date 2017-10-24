@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './searchMovieFieldStyles';
 import SearchButton from '../searchButton/searchButton';
-import SearchByToggle from '../searchByToggle/searchByToggle';
+import SearchTypeToggle from '../searchTypeToggle/searchTypeToggle';
 import SearchInput from '../searchInput/searchInput';
 
 export default class SearchMovieField extends Component {
@@ -10,7 +10,7 @@ export default class SearchMovieField extends Component {
             <div className="search-movie-field">
                 <SearchInput />
                 <div className="search-movie-field__button-container">
-                    <SearchByToggle />
+                    <SearchTypeToggle />
                     <SearchButton />
                 </div>
             </div>
