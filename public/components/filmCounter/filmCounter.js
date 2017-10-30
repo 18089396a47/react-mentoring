@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const FilmCounter = (props) => (
+export const FilmCounter = (props) => (
     <span>{props.count > 0 ? `${props.count} movies found` : null}</span>
 );
 

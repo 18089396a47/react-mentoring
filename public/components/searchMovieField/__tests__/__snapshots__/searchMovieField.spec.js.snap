@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchMovieField component SearchMovieField should 1`] = `
+<div
+  className="search-movie-field"
+>
+  <SearchInput />
+  <div
+    className="search-movie-field__button-container"
+  >
+    <SearchTypeToggle />
+    <SearchButton />
+  </div>
+</div>
+`;

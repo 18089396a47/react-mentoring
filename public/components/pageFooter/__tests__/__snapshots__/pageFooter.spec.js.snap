@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageFooter component PageFooter should 1`] = `
+<footer
+  className="page-footer"
+>
+  <Link
+    className="page-footer__link"
+    to="/"
+  >
+    netflixroulette
+  </Link>
+</footer>
+`;

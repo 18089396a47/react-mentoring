@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const FilmsSimilar = ({ title }) => (
+export const FilmsSimilar = ({ title }) => (
     <span>{title ? `Similar as ${title}` : null}</span>
 );
 

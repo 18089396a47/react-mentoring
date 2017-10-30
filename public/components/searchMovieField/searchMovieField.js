@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './searchMovieFieldStyles';
+import './searchMovieFieldStyles.styl';
 import SearchButton from '../searchButton/searchButton';
 import SearchTypeToggle from '../searchTypeToggle/searchTypeToggle';
 import SearchInput from '../searchInput/searchInput';

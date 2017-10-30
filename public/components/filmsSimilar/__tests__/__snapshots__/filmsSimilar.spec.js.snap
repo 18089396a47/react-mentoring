@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilmsSimilar component FilmsSimilar should show empty state 1`] = `<span />`;
+
+exports[`FilmsSimilar component FilmsSimilar should show film title 1`] = `
+<span>
+  Similar as test title
+</span>
+`;

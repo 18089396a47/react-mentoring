@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './pageFooterStyles';
+import './pageFooterStyles.styl';
 
 export default () => (
     <footer className="page-footer">

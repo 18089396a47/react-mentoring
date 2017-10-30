@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilmCounter component FilmCounter should show empty state 1`] = `<span />`;
+
+exports[`FilmCounter component FilmCounter should show film count 1`] = `
+<span>
+  1 movies found
+</span>
+`;
