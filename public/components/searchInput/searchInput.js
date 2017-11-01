@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
-import './searchInputStyles';
+import './searchInputStyles.styl';
 import { searchQueryStart, changeSearchInput } from '../../actions/';
 
-const SearchInput = ({ dispatch, searchType, inputValue, history }) => {
+export const SearchInput = ({ dispatch, searchType, inputValue, history }) => {
     function searchFilm(event) {
         event.preventDefault();
 
@@ -13,7 +13,7 @@ const SearchInput = ({ dispatch, searchType, inputValue, history }) => {
         dispatch(searchQueryStart(inputValue, searchType));
     }
 
-    function keyDown(event) {
+    function changeInputValue(event) {
         const value = event.target.value;
 
         dispatch(changeSearchInput(value));
@@ -22,7 +22,7 @@ const SearchInput = ({ dispatch, searchType, inputValue, history }) => {
     return (
         <form className="search-input" onSubmit={searchFilm}>
             <input
-                onChange={keyDown}
+                onChange={changeInputValue}
                 value={inputValue}
                 className="search-input__field"
                 placeholder="Enter something..."

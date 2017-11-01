@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import './pageHeaderStyles';
+import './pageHeaderStyles.styl';
 
 export default class PageHeader extends Component {
     render() {

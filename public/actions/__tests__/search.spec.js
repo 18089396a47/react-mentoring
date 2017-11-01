@@ -14,6 +14,22 @@ jest.mock('themoviedb-javascript-library', () => ({
                 success('["mockResults"]');
             }
         })
+    },
+    search: {
+        getMovie: jest.fn((param, success, fail) => {
+            if (param.query === 'invalid') {
+                fail('error');
+            } else {
+                success('["mockResults"]');
+            }
+        }),
+        getTv: jest.fn((param, success, fail) => {
+            if (param.query === 'invalid') {
+                fail('error');
+            } else {
+                success('["mockResults"]');
+            }
+        })
     }
 }));
 
@@ -71,7 +87,6 @@ describe('Search action creators', () => {
         expect(mockDigest.mock.calls.length).toBe(2);
         expect(theMovieDb.movies.getSimilarMovies).toHaveBeenCalled();
         expect(global.console.error).toHaveBeenCalledWith('error');
-
     });
 
     it('searchSimilarFilmStart action should return correct function that call API request, \'updateSearchResults\' and \'searchSimilarFilmEnd\' action on success', () => {
@@ -90,6 +105,71 @@ describe('Search action creators', () => {
         });
         expect(mockDigest.mock.calls.length).toBe(3);
         expect(theMovieDb.movies.getSimilarMovies).toHaveBeenCalled();
+    });
 
+    it('searchQueryStart action should return correct function that call API request depending on \'searchType\', \'searchQueryEnd\' action on fail', () => {
+        const mockDigest = jest.fn();
+        let asyncAction = search.searchQueryStart('invalid', 'SEARCH_TYPE_MOVIE');
+
+        asyncAction(mockDigest);
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_START',
+            inputValue: 'invalid'
+        });
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_END'
+        });
+        expect(mockDigest.mock.calls.length).toBe(2);
+        expect(theMovieDb.search.getMovie).toHaveBeenCalled();
+        expect(global.console.error).toHaveBeenCalledWith('error');
+
+        global.console.error.mockReset();
+        mockDigest.mockReset();
+        asyncAction = search.searchQueryStart('invalid', 'SEARCH_TYPE_TV');
+
+        asyncAction(mockDigest);
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_START',
+            inputValue: 'invalid'
+        });
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_END'
+        });
+        expect(mockDigest.mock.calls.length).toBe(2);
+        expect(theMovieDb.search.getTv).toHaveBeenCalled();
+        expect(global.console.error).toHaveBeenCalledWith('error');
+    });
+
+    it('searchQueryStart action should return correct function that call API request depending on \'searchType\', \'updateSearchResults\' and \'searchQueryEnd\' action on success', () => {
+        updateSearchResults.mockReset();
+        const mockDigest = jest.fn();
+        let asyncAction = search.searchQueryStart('valid', 'SEARCH_TYPE_MOVIE');
+
+        asyncAction(mockDigest);
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_START',
+            inputValue: 'valid'
+        });
+        expect(updateSearchResults).toHaveBeenCalledWith(['mockResults']);
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_END'
+        });
+        expect(mockDigest.mock.calls.length).toBe(3);
+        expect(theMovieDb.search.getMovie).toHaveBeenCalled();
+
+        mockDigest.mockReset();
+        asyncAction = search.searchQueryStart('valid', 'SEARCH_TYPE_TV');
+
+        asyncAction(mockDigest);
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_START',
+            inputValue: 'valid'
+        });
+        expect(updateSearchResults).toHaveBeenCalledWith(['mockResults']);
+        expect(mockDigest).toHaveBeenCalledWith({
+            type: 'SEARCH_QUERY_END'
+        });
+        expect(mockDigest.mock.calls.length).toBe(3);
+        expect(theMovieDb.search.getTv).toHaveBeenCalled();
     });
 });

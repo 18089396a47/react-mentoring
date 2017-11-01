@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import './sortByToggleStyles';
+import './sortByToggleStyles.styl';
 import { changeSortCriteria } from '../../actions/';
 import * as commons from '../../constants/commons';
 
-class SortByToggle extends Component {
+export class SortByToggle extends Component {
     changeCriteria(criteria) {
         this.props.dispatch(changeSortCriteria(criteria));
     }

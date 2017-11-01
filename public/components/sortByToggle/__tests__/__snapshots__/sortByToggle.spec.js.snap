@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SortByToggle component SortByToggle should be shown correctly 1`] = `
+<div
+  className="sort-by-toggle"
+>
+  <span
+    className="sort-by-toggle__title"
+  >
+    Sort by
+  </span>
+  <label
+    className="sort-by-toggle__option"
+  >
+    <input
+      checked={true}
+      name="sort-by-toggle"
+      onChange={[Function]}
+      type="radio"
+    />
+    <span
+      className="sort-by-toggle__option-title"
+    >
+      release date
+    </span>
+  </label>
+  <label
+    className="sort-by-toggle__option"
+  >
+    <input
+      checked={false}
+      name="sort-by-toggle"
+      onChange={[Function]}
+      type="radio"
+    />
+    <span
+      className="sort-by-toggle__option-title"
+    >
+      rating
+    </span>
+  </label>
+</div>
+`;

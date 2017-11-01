@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageHeader component PageHeader should be shown correctly with headerComponents 1`] = `
+<header
+  className="page-header"
+>
+  <div
+    className="page-header__link-wrapper"
+  >
+    <Link
+      className="page-header__link"
+      to="/"
+    >
+      netflixroulette
+    </Link>
+    <span>
+      headerComponents
+    </span>
+  </div>
+  <span>
+    children
+  </span>
+</header>
+`;
+
+exports[`PageHeader component PageHeader should be shown correctly without headerComponents 1`] = `
+<header
+  className="page-header"
+>
+  <div
+    className="page-header__link-wrapper"
+  >
+    <Link
+      className="page-header__link"
+      to="/"
+    >
+      netflixroulette
+    </Link>
+  </div>
+  <span>
+    children
+  </span>
+</header>
+`;
