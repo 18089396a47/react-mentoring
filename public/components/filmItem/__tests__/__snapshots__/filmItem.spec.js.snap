@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilmItem component FilmItem should be shown correctly 1`] = `
+<li
+  className="film-item"
+>
+  <Link
+    onClick={[Function]}
+    to="/film/111"
+  >
+    <img
+      alt="showTitle"
+      className="film-item__poster"
+      src="poster"
+    />
+  </Link>
+  <div
+    className="film-item__info-wrapper"
+  >
+    <div
+      className="film-item__title-wrapper"
+    >
+      <Link
+        className="film-item__title-link"
+        onClick={[Function]}
+        to="/film/111"
+      >
+        <h3
+          className="film-item__title"
+        >
+          showTitle
+        </h3>
+      </Link>
+      <span
+        className="film-item__year"
+      />
+    </div>
+    <span
+      className="film-item__category"
+    >
+      category
+    </span>
+  </div>
+</li>
+`;

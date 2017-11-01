@@ -5,7 +5,7 @@ import PageFooter from '../pageFooter';
 jest.mock('react-router-dom', () => ({ Link: 'Link' }));
 
 describe('PageFooter component', () => {
-    it('PageFooter should', () => {
+    it('PageFooter should be shown correctly', () => {
         const tree = renderer.create(
             <PageFooter />
         ).toJSON();

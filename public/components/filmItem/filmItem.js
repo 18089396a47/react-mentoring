@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import './filmItemrStyles';
+import './filmItemrStyles.styl';
 import SearchMovieField from '../searchMovieField/searchMovieField';
 import InfoPanel from '../infoPanel/infoPanel';
 import getYear from '../../helpers/getYear';
 import { searchFilmStart, searchSimilarFilmStart } from '../../actions/';
 
-const FilmItem = ({
+export const FilmItem = ({
     dispatch,
     searchType,
     show_title,
@@ -29,7 +29,7 @@ const FilmItem = ({
             </Link>
             <div className="film-item__info-wrapper">
                 <div className="film-item__title-wrapper">
-                    <Link className="film-item__title-link" to={`/film/${show_title}`} onClick={searchFilm}>
+                    <Link className="film-item__title-link" to={`/film/${id}`} onClick={searchFilm}>
                         <h3 className="film-item__title">{show_title}</h3>
                     </Link>
                     <span className="film-item__year">{getYear(release_year)}</span>

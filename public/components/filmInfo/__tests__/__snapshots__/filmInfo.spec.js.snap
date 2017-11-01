@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilmInfo component FilmInfo should be shown correctly 1`] = `
+<div
+  className="film-info"
+>
+  <div>
+    <img
+      alt="showTitle"
+      className="film-info__poster"
+      src="poster"
+    />
+  </div>
+  <div
+    className="film-info__info-wrapper"
+  >
+    <div
+      className="film-info__title-wrapper"
+    >
+      <h1
+        className="film-info__title"
+      >
+        showTitle
+      </h1>
+      <div
+        className="film-info__rating"
+      >
+        222
+      </div>
+    </div>
+    <div
+      className="film-info__oscar"
+    >
+      Oscar-winning Movies
+    </div>
+    <div
+      className="film-info__year-wrapper"
+    >
+      <div
+        className="film-info__year"
+      />
+      <div>
+        333
+         min
+      </div>
+    </div>
+    <p
+      className="film-info__summary"
+    >
+      summary
+    </p>
+    <div
+      className="film-info__tagline"
+    >
+      Tagline: 
+      tagline
+    </div>
+    <div
+      className="film-info__companies"
+    >
+      Production companies: 
+      productionCompanies
+    </div>
+  </div>
+</div>
+`;

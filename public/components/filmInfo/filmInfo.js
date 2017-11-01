@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import './filmInforStyles';
+import './filmInforStyles.styl';
 import SearchMovieField from '../searchMovieField/searchMovieField';
 import InfoPanel from '../infoPanel/infoPanel';
 import theMovieDb from 'themoviedb-javascript-library';
@@ -10,7 +10,7 @@ import { searchFilmStart } from '../../actions/';
 import getYear from '../../helpers/getYear';
 import * as commons from '../../constants/commons';
 
-class FilmInfo extends Component {
+export class FilmInfo extends Component {
     constructor(props) {
         super(props);
 
