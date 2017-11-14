@@ -1,6 +1,7 @@
 import * as types from '../constants/actions';
 import theMovieDb from 'themoviedb-javascript-library';
 import * as commons from '../constants/commons';
+import promiseWrapper from '../helpers/promiseWrapper';
 
 export const searchFilmEnd = () => ({
     type: types.searchFilmEnd
@@ -15,12 +16,12 @@ export const searchFilmStart = (id, searchType) => (dispatch) => {
         id
     });
 
-    searchMethod({
+    return promiseWrapper(searchMethod, {
         id
-    }, function(response) {
+    }, (response) => {
         dispatch(searchFilmEnd());
         dispatch(updateFilmInfo(JSON.parse(response)));
-    }, function(err) {
+    }, (err) => {
         console.error(err);
         dispatch(searchFilmEnd());
     });

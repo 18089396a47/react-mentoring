@@ -2,6 +2,7 @@ import * as types from '../constants/actions';
 import theMovieDb from 'themoviedb-javascript-library';
 import { updateSearchResults } from './films';
 import * as commons from '../constants/commons';
+import promiseWrapper from '../helpers/promiseWrapper';
 
 export const changeSearchInput = (inputValue) => ({
     type: types.changeSearchInput,
@@ -21,13 +22,12 @@ export const searchQueryStart = (inputValue, searchType) => (dispatch) => {
         inputValue
     });
 
-
-    searchMethod({
+    return promiseWrapper(searchMethod, {
         query: inputValue
-    }, function(response) {
+    }, (response) => {
         dispatch(searchQueryEnd());
         dispatch(updateSearchResults(JSON.parse(response)));
-    }, function(err) {
+    }, (err) => {
         console.error(err);
         dispatch(searchQueryEnd());
     });
@@ -43,12 +43,12 @@ export const searchSimilarFilmStart = (id) => (dispatch) => {
         id
     });
 
-    theMovieDb.movies.getSimilarMovies({
+    return promiseWrapper(theMovieDb.movies.getSimilarMovies, {
         id
-    }, function(response) {
+    }, (response) => {
         dispatch(searchSimilarFilmEnd());
         dispatch(updateSearchResults(JSON.parse(response)));
-    }, function(err) {
+    }, (err) => {
         console.error(err);
         dispatch(searchSimilarFilmEnd());
     });
