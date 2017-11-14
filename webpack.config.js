@@ -1,8 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const isProduction = process.argv.indexOf('-p') !== -1;
-module.exports = {
+const config = {
     context: path.join(__dirname, 'public'),
     devtool: 'source-map',
     devServer: {
@@ -25,10 +26,16 @@ module.exports = {
     module: {
         loaders: [{
             test: /\.css$/,
-            loader: 'style-loader!css-loader'
+            use: ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: "css-loader"
+            })
         }, {
             test: /\.styl$/,
-            loader: 'style-loader!css-loader!stylus-loader'
+            use: ExtractTextPlugin.extract({
+                fallback: "style-loader",
+                use: "css-loader!stylus-loader"
+            })
         }, {
             test: /\.(eot|svg|ttf|woff|woff2)$/,
             loader: 'file-loader?name=public/fonts/[name].[ext]'
@@ -51,18 +58,21 @@ module.exports = {
         }]
     },
     plugins: [
-        new webpack.DefinePlugin({
-            isProduction
-        }),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin(),
-        new HtmlWebpackPlugin({
-            title: 'Test',
-            hash: true,
-            template: '../index.html'
-        })
+        new ExtractTextPlugin('styles.css'),
+        new webpack.NamedModulesPlugin()
     ],
     resolve: {
         extensions: ['.css', '.js', '.styl', '.json', 'index.js']
     }
 };
+
+if (!isProduction) {
+    config.plugins.push(new HtmlWebpackPlugin({
+        title: 'Test',
+        hash: true,
+        template: '../index.html'
+    }));
+}
+
+module.exports = config;
