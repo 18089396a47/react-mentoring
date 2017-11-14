@@ -45,7 +45,8 @@
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
     "serve-favicon": "~2.4.2",
-    "themoviedb-javascript-library": "^1.0.0"
+    "themoviedb-javascript-library": "^1.0.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

@@ -2,6 +2,7 @@ var express = require('express');
 var path = require('path');
 var router = express.Router();
 
+global.XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 var hook = require('css-modules-require-hook');
 var stylus = require('stylus');
 

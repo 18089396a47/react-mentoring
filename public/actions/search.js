@@ -21,15 +21,18 @@ export const searchQueryStart = (inputValue, searchType) => (dispatch) => {
         inputValue
     });
 
-
-    searchMethod({
-        query: inputValue
-    }, function(response) {
-        dispatch(searchQueryEnd());
-        dispatch(updateSearchResults(JSON.parse(response)));
-    }, function(err) {
-        console.error(err);
-        dispatch(searchQueryEnd());
+    return new Promise((resolve) => {
+        searchMethod({
+            query: inputValue
+        }, function(response) {
+            dispatch(searchQueryEnd());
+            dispatch(updateSearchResults(JSON.parse(response)));
+            resolve(null);
+        }, function(err) {
+            console.error(err);
+            dispatch(searchQueryEnd());
+            resolve(null);
+        });
     });
 };
 
@@ -43,14 +46,18 @@ export const searchSimilarFilmStart = (id) => (dispatch) => {
         id
     });
 
-    theMovieDb.movies.getSimilarMovies({
-        id
-    }, function(response) {
-        dispatch(searchSimilarFilmEnd());
-        dispatch(updateSearchResults(JSON.parse(response)));
-    }, function(err) {
-        console.error(err);
-        dispatch(searchSimilarFilmEnd());
+    return new Promise((resolve) => {
+        theMovieDb.movies.getSimilarMovies({
+            id
+        }, function(response) {
+            dispatch(searchSimilarFilmEnd());
+            dispatch(updateSearchResults(JSON.parse(response)));
+            resolve(null);
+        }, function(err) {
+            console.error(err);
+            dispatch(searchSimilarFilmEnd());
+            resolve(null);
+        });
     });
 };
 
