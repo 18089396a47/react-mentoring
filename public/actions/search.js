@@ -2,6 +2,7 @@ import * as types from '../constants/actions';
 import theMovieDb from 'themoviedb-javascript-library';
 import { updateSearchResults } from './films';
 import * as commons from '../constants/commons';
+import promiseWrapper from '../helpers/promiseWrapper';
 
 export const changeSearchInput = (inputValue) => ({
     type: types.changeSearchInput,
@@ -21,18 +22,14 @@ export const searchQueryStart = (inputValue, searchType) => (dispatch) => {
         inputValue
     });
 
-    return new Promise((resolve) => {
-        searchMethod({
-            query: inputValue
-        }, function(response) {
-            dispatch(searchQueryEnd());
-            dispatch(updateSearchResults(JSON.parse(response)));
-            resolve(null);
-        }, function(err) {
-            console.error(err);
-            dispatch(searchQueryEnd());
-            resolve(null);
-        });
+    return promiseWrapper(searchMethod, {
+        query: inputValue
+    }, (response) => {
+        dispatch(searchQueryEnd());
+        dispatch(updateSearchResults(JSON.parse(response)));
+    }, (err) => {
+        console.error(err);
+        dispatch(searchQueryEnd());
     });
 };
 
@@ -46,18 +43,14 @@ export const searchSimilarFilmStart = (id) => (dispatch) => {
         id
     });
 
-    return new Promise((resolve) => {
-        theMovieDb.movies.getSimilarMovies({
-            id
-        }, function(response) {
-            dispatch(searchSimilarFilmEnd());
-            dispatch(updateSearchResults(JSON.parse(response)));
-            resolve(null);
-        }, function(err) {
-            console.error(err);
-            dispatch(searchSimilarFilmEnd());
-            resolve(null);
-        });
+    return promiseWrapper(theMovieDb.movies.getSimilarMovies, {
+        id
+    }, (response) => {
+        dispatch(searchSimilarFilmEnd());
+        dispatch(updateSearchResults(JSON.parse(response)));
+    }, (err) => {
+        console.error(err);
+        dispatch(searchSimilarFilmEnd());
     });
 };
 
