@@ -12,8 +12,10 @@ const config = {
         port: 8080
     },
     entry: isProduction ? [
+        'babel-polyfill',
         './index.js'
     ] : [
+        'babel-polyfill',
         "react-hot-loader/patch",
         "webpack-dev-server/client?http://localhost:8080",
         "./index.js"

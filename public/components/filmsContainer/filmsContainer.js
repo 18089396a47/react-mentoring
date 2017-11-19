@@ -9,9 +9,7 @@ import { searchQueryStart, searchSimilarFilmStart } from '../../actions/';
 import * as commons from '../../constants/commons';
 
 class FilmsContainer extends Component {
-    constructor(props) {
-        super(props);
-
+    componentWillMount() {
         const path = this.props.history.location.pathname.split('/');
 
         if (path[1] === 'search') {

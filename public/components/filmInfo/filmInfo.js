@@ -11,9 +11,7 @@ import getYear from '../../helpers/getYear';
 import * as commons from '../../constants/commons';
 
 export class FilmInfo extends Component {
-    constructor(props) {
-        super(props);
-
+    componentWillMount() {
         const path = this.props.history.location.pathname.split('/');
 
         if (path[1] === 'film') {

@@ -1,9 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import createSagaMiddleware, { END } from 'redux-saga';
 
 import redusers from './redusers/';
+import rootSaga from './actions/';
 
 import * as commons from './constants/commons';
+
+const sagaMiddleware = createSagaMiddleware();
 
 const defaultState = {
     search: {
@@ -22,9 +25,13 @@ const defaultState = {
 };
 
 export default (initialState = defaultState) => {
-    let enhancer= applyMiddleware(thunkMiddleware);
+    let enhancer= applyMiddleware(sagaMiddleware);
 
     const store = createStore(redusers, defaultState, enhancer);
+
+    store.runSaga = sagaMiddleware.run;
+    store.close = () => store.dispatch(END);
+    sagaMiddleware.run(rootSaga);
 
     return store;
 };

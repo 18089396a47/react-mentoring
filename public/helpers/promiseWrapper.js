@@ -1,11 +1,9 @@
-export default (func, param, success, fail) => {
-    return new Promise((resolve) => {
+export default (func, param) => {
+    return new Promise((resolve, reject) => {
         func(param, (result) => {
-            success(result);
             resolve(result);
         }, (error) => {
-            fail(error);
-            resolve(error);
+            reject(error);
         });
     });
 };

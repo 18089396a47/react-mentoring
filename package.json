@@ -31,6 +31,7 @@
     ]
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
@@ -43,6 +44,7 @@
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "serve-favicon": "~2.4.2",
     "themoviedb-javascript-library": "^1.0.0",
