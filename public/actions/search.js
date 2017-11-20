@@ -20,17 +20,17 @@ export const searchQueryStart = (inputValue, searchType) => ({
     searchType
 });
 
-function* fetchQuery({ inputValue, searchType }) {
+export function* fetchQuery({ inputValue, searchType }) {
     const searchMethod = searchType === commons.searchTypeMovie ?
         theMovieDb.search.getMovie : theMovieDb.search.getTv;
 
     try {
-        const response = yield call(() => promiseWrapper(searchMethod, {
+        const response = yield call(promiseWrapper, searchMethod, {
             query: inputValue
-        }));
+        });
 
         yield put(searchQueryEnd());
-        yield put(updateSearchResults(JSON.parse(response)))
+        yield put(updateSearchResults(response))
     } catch (e) {
         yield put(searchQueryEnd());
     }
@@ -49,14 +49,14 @@ export const searchSimilarFilmStart = (id) => ({
     id
 });
 
-function* fetchSimilarFilms({ id }) {
+export function* fetchSimilarFilms({ id }) {
     try {
-        const response = yield call(() => promiseWrapper(theMovieDb.movies.getSimilarMovies, {
+        const response = yield call(promiseWrapper, theMovieDb.movies.getSimilarMovies, {
             id
-        }));
+        }); 
 
         yield put(searchSimilarFilmEnd());
-        yield put(updateSearchResults(JSON.parse(response)))
+        yield put(updateSearchResults(response))
     } catch (e) {
         yield put(searchSimilarFilmEnd());
     }

@@ -1,10 +1,10 @@
 import * as search from '../search';
+import { call, put } from 'redux-saga/effects';
 import theMovieDb from 'themoviedb-javascript-library';
 import { updateSearchResults } from '../films';
+import promiseWrapper from '../../helpers/promiseWrapper';
+import sagaHelper from 'redux-saga-testing';
 
-jest.mock('../films', () => ({
-    updateSearchResults: jest.fn()
-}));
 jest.mock('themoviedb-javascript-library', () => ({
     movies: {
         getSimilarMovies: jest.fn((param, success, fail) => {
@@ -32,20 +32,11 @@ jest.mock('themoviedb-javascript-library', () => ({
         })
     }
 }));
-
-let globalConsoleError;
+jest.mock('../../helpers/promiseWrapper', () => (
+    jest.fn()
+));
 
 describe('Search action creators', () => {
-    beforeEach(() => {
-        globalConsoleError = global.console.error;
-
-        global.console.error = jest.fn();
-    })
-
-    afterEach(() => {
-        global.console.error = globalConsoleError;
-    });
-
     it('ChangeSearchInput action should return correct object', () => {
         expect(search.changeSearchInput('test')).toEqual({
             type: 'CHANGE_SEARCH_INPUT',
@@ -72,104 +63,150 @@ describe('Search action creators', () => {
         });
     });
 
-    it('searchSimilarFilmStart action should return correct function that call API request, \'searchSimilarFilmEnd\' action on fail', () => {
-        const asyncAction = search.searchSimilarFilmStart('invalid');
-        const mockDigest = jest.fn();
+    it('SearchQueryStart action should return correct object', () => {
+        expect(search.searchQueryStart('test', 'searchType')).toEqual({
+            type: 'SEARCH_QUERY_START',
+            inputValue: 'test',
+            searchType: 'searchType'
+        });
+    });
 
-        asyncAction(mockDigest);
-        expect(mockDigest).toHaveBeenCalledWith({
+    it('SearchSimilarFilmStart action should return correct object', () => {
+        expect(search.searchSimilarFilmStart('id')).toEqual({
             type: 'SEARCH_SIMILAR_FILM_START',
-            id: 'invalid'
+            id: 'id'
         });
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_SIMILAR_FILM_END'
-        });
-        expect(mockDigest.mock.calls.length).toBe(2);
-        expect(theMovieDb.movies.getSimilarMovies).toHaveBeenCalled();
-        expect(global.console.error).toHaveBeenCalledWith('error');
     });
 
-    it('searchSimilarFilmStart action should return correct function that call API request, \'updateSearchResults\' and \'searchSimilarFilmEnd\' action on success', () => {
-        updateSearchResults.mockReset();
-        const asyncAction = search.searchSimilarFilmStart('valid');
-        const mockDigest = jest.fn();
+    describe('fetchSimilarFilms saga with api fail', () => {
+        const it = sagaHelper(search.fetchSimilarFilms({ id: 'invalid' }));
 
-        asyncAction(mockDigest);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_SIMILAR_FILM_START',
-            id: 'valid'
+        it('should call api request', result => {
+            expect(result).toEqual(call(promiseWrapper, theMovieDb.movies.getSimilarMovies, {
+                id: 'invalid'
+            }));
+ 
+            return new Error();
         });
-        expect(updateSearchResults).toHaveBeenCalledWith(['mockResults']);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_SIMILAR_FILM_END'
+
+        it('and then put searchSimilarFilmEnd action', result => {
+            expect(result).toEqual(put(search.searchSimilarFilmEnd()));
         });
-        expect(mockDigest.mock.calls.length).toBe(3);
-        expect(theMovieDb.movies.getSimilarMovies).toHaveBeenCalled();
+ 
+        it('and then nothing', result => {
+            expect(result).toBeUndefined();
+        });
     });
 
-    it('searchQueryStart action should return correct function that call API request depending on \'searchType\', \'searchQueryEnd\' action on fail', () => {
-        const mockDigest = jest.fn();
-        let asyncAction = search.searchQueryStart('invalid', 'SEARCH_TYPE_MOVIE');
+    describe('fetchSimilarFilms saga with api suscces', () => {
+        const it = sagaHelper(search.fetchSimilarFilms({ id: 'valid' }));
 
-        asyncAction(mockDigest);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_START',
-            inputValue: 'invalid'
+        it('should call api request', result => {
+            expect(result).toEqual(call(promiseWrapper, theMovieDb.movies.getSimilarMovies, {
+                id: 'valid'
+            }));
+ 
+            return '["mockResults"]';
         });
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_END'
-        });
-        expect(mockDigest.mock.calls.length).toBe(2);
-        expect(theMovieDb.search.getMovie).toHaveBeenCalled();
-        expect(global.console.error).toHaveBeenCalledWith('error');
 
-        global.console.error.mockReset();
-        mockDigest.mockReset();
-        asyncAction = search.searchQueryStart('invalid', 'SEARCH_TYPE_TV');
+        it('and then put searchSimilarFilmEnd action', result => {
+            expect(result).toEqual(put(search.searchSimilarFilmEnd()));
+        });
 
-        asyncAction(mockDigest);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_START',
-            inputValue: 'invalid'
+        it('and then put updateSearchResults action', result => {
+            expect(result).toEqual(put(updateSearchResults('["mockResults"]')));
         });
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_END'
+ 
+        it('and then nothing', result => {
+            expect(result).toBeUndefined();
         });
-        expect(mockDigest.mock.calls.length).toBe(2);
-        expect(theMovieDb.search.getTv).toHaveBeenCalled();
-        expect(global.console.error).toHaveBeenCalledWith('error');
     });
 
-    it('searchQueryStart action should return correct function that call API request depending on \'searchType\', \'updateSearchResults\' and \'searchQueryEnd\' action on success', () => {
-        updateSearchResults.mockReset();
-        const mockDigest = jest.fn();
-        let asyncAction = search.searchQueryStart('valid', 'SEARCH_TYPE_MOVIE');
+    describe('fetchQuery saga when \'searchType\' is \'SEARCH_TYPE_MOVIE\' with api fail', () => {
+        const it = sagaHelper(search.fetchQuery({ inputValue: 'test', searchType: 'SEARCH_TYPE_MOVIE' }));
 
-        asyncAction(mockDigest);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_START',
-            inputValue: 'valid'
+        it('should call getMovie api request', result => {
+            expect(result).toEqual(call(promiseWrapper, theMovieDb.search.getMovie, {
+                query: 'test'
+            }));
+ 
+            return new Error();
         });
-        expect(updateSearchResults).toHaveBeenCalledWith(['mockResults']);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_END'
-        });
-        expect(mockDigest.mock.calls.length).toBe(3);
-        expect(theMovieDb.search.getMovie).toHaveBeenCalled();
 
-        mockDigest.mockReset();
-        asyncAction = search.searchQueryStart('valid', 'SEARCH_TYPE_TV');
+        it('and then put searchQueryEnd action', result => {
+            expect(result).toEqual(put(search.searchQueryEnd()));
+        });
+ 
+        it('and then nothing', result => {
+            expect(result).toBeUndefined();
+        });
+    });
 
-        asyncAction(mockDigest);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_START',
-            inputValue: 'valid'
+    describe('fetchQuery saga when \'searchType\' is \'SEARCH_TYPE_TV\' with api fail', () => {
+        const it = sagaHelper(search.fetchQuery({ inputValue: 'test', searchType: 'SEARCH_TYPE_TV' }));
+
+        it('should call getTv api request', result => {
+            expect(result).toEqual(call(promiseWrapper, theMovieDb.search.getTv, {
+                query: 'test'
+            }));
+ 
+            return new Error();
         });
-        expect(updateSearchResults).toHaveBeenCalledWith(['mockResults']);
-        expect(mockDigest).toHaveBeenCalledWith({
-            type: 'SEARCH_QUERY_END'
+
+        it('and then put searchQueryEnd action', result => {
+            expect(result).toEqual(put(search.searchQueryEnd()));
         });
-        expect(mockDigest.mock.calls.length).toBe(3);
-        expect(theMovieDb.search.getTv).toHaveBeenCalled();
+ 
+        it('and then nothing', result => {
+            expect(result).toBeUndefined();
+        });
+    });
+
+    describe('fetchQuery saga when \'searchType\' is \'SEARCH_TYPE_MOVIE\' with api success', () => {
+        const it = sagaHelper(search.fetchQuery({ inputValue: 'test', searchType: 'SEARCH_TYPE_MOVIE' }));
+
+        it('should call getMovie api request', result => {
+            expect(result).toEqual(call(promiseWrapper, theMovieDb.search.getMovie, {
+                query: 'test'
+            }));
+ 
+            return '["results"]';
+        });
+
+        it('and then put searchQueryEnd action', result => {
+            expect(result).toEqual(put(search.searchQueryEnd()));
+        });
+
+        it('and then put updateSearchResults action', result => {
+            expect(result).toEqual(put(updateSearchResults('["results"]')));
+        });
+ 
+        it('and then nothing', result => {
+            expect(result).toBeUndefined();
+        });
+    });
+
+    describe('fetchQuery saga when \'searchType\' is \'SEARCH_TYPE_TV\' with api success', () => {
+        const it = sagaHelper(search.fetchQuery({ inputValue: 'test', searchType: 'SEARCH_TYPE_TV' }));
+
+        it('should call getTv api request', result => {
+            expect(result).toEqual(call(promiseWrapper, theMovieDb.search.getTv, {
+                query: 'test'
+            }));
+ 
+            return '["results"]';
+        });
+
+        it('and then put searchQueryEnd action', result => {
+            expect(result).toEqual(put(search.searchQueryEnd()));
+        });
+
+        it('and then put updateSearchResults action', result => {
+            expect(result).toEqual(put(updateSearchResults('["results"]')));
+        });
+ 
+        it('and then nothing', result => {
+            expect(result).toBeUndefined();
+        });
     });
 });

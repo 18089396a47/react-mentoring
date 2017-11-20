@@ -24,7 +24,7 @@ function* fetchFilm({ id, searchType }) {
         }));
 
         yield put(searchFilmEnd());
-        yield put(updateFilmInfo(JSON.parse(response)))
+        yield put(updateFilmInfo(response))
     } catch (e) {
         yield put(searchFilmEnd());
     }
